@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CGM\NoticiasController;
+use App\Http\Controllers\Api\PortalTransparencia\ServidoresController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +20,4 @@ Route::get('/', function () {
 });
 
 Route::get('/cgm/noticias', [NoticiasController::class, 'getInformes']);
+Route::get('/servidores', [ServidoresController::class, 'getServidores']);

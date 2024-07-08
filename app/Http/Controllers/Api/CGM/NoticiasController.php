@@ -13,7 +13,7 @@ class NoticiasController extends Controller
     {
         $resultado = NoticiasScraperService::Informes();
         if (empty($resultado)) {
-            return response()->json(['msg' => 'Não foi possível obter a tabela de classificação do brasileirão série A.'], Response::HTTP_NOT_FOUND);
+            return response()->json(['msg' => 'Não foi possível obter a as noticias da CGM.'], Response::HTTP_NOT_FOUND);
         }
 
         return view('noticias', compact('resultado'));

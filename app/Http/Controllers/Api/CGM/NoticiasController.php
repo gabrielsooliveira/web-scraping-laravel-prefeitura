@@ -9,13 +9,13 @@ use Illuminate\Http\Response;
 
 class NoticiasController extends Controller
 {
-    public function getInformes()
+    public function getInformes($value = 1)
     {
-        $resultado = NoticiasScraperService::Informes();
+        $resultado = NoticiasScraperService::Informes($value);
         if (empty($resultado)) {
             return response()->json(['msg' => 'Não foi possível obter a as noticias da CGM.'], Response::HTTP_NOT_FOUND);
         }
-
-        return view('noticias', compact('resultado'));
+    
+        return view('pages.noticias', compact('resultado'));
     }
 }

@@ -16,8 +16,9 @@ use App\Http\Controllers\Api\PortalTransparencia\ServidoresController;
 */
 
 Route::get('/', function () {
-    return view('app');
-});
+    return view('pages.inicio');
+})->name('home');
 
-Route::get('/cgm/noticias', [NoticiasController::class, 'getInformes']);
-Route::get('/servidores', [ServidoresController::class, 'getServidores']);
+Route::get('/cgm/{value?}', [NoticiasController::class, 'getInformes'])->name('cgm_informes');
+Route::get('/servidores', [ServidoresController::class, 'getServidores'])->name('portalt_servidores');
+Route::get('/detalheservidor', [ServidoresController::class, 'getDetalheServidor'])->name('portalt_servidor_detalhes');

@@ -16,7 +16,17 @@ class ServidoresController extends Controller
         if (empty($resultado)) {
             return response()->json(['msg' => 'Não foi possível obter a as noticias da CGM.'], Response::HTTP_NOT_FOUND);
         }
+        
+        return view('pages.servidores', compact('resultado'));
+    }
 
-        return view('noticias', compact('resultado'));
+    public function getDetalheServidor()
+    {
+        $resultado = ServidoresScraperService::DetalheServidor();
+        if (empty($resultado)) {
+            return response()->json(['msg' => 'Não foi possível obter a as noticias da CGM.'], Response::HTTP_NOT_FOUND);
+        }
+        
+        return view('pages.servidores', compact('resultado'));
     }
 }

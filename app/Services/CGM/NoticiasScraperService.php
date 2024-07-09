@@ -10,10 +10,9 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class NoticiasScraperService
 {
-    public static function Informes(): array
+    public static function Informes($value): array
     {
-        $valor = 1;
-        $resultado = NoticiasRepository::getConteudoInformes($valor);
+        $resultado = NoticiasRepository::getConteudoInformes($value);
         if ($resultado->failed()) {
             logs()->debug("Falha ao fazer a consulta à repository.", ['status' => $resultado->status(), 'msg' => $resultado->json()]);
             return [];
@@ -26,28 +25,29 @@ class NoticiasScraperService
         }
 
         $crawler = new Crawler($conteudo);
-
-        // Array para armazenar os resultados
+        
         $results = [];
         
         $crawler->filter('.col-lg-2')->each(function (Crawler $node) use (&$results) {
-            // Filtra apenas os elementos que contêm a classe 'box_img_noticias'
             if ($node->filter('.box_img_noticias')->count() > 0) {
-                // Obtém o link do primeiro elemento <a> dentro de .col-lg-2
+               
+                $name = $node->filter('h2')->last()->text();
                 $link = $node->filter('a')->first()->attr('href');
-                
-                // Obtém o texto de h1 e h2 dentro de .box_img_noticias
                 $date = $node->filter('.box_img_noticias h1')->first()->text();
                 $month = $node->filter('.box_img_noticias h2')->first()->text();
-                
+                $category = $node->filter('a')->last()->text();
+
                 $results[] = [
+                    'name' => $name,
                     'date' => trim($date),
                     'month' => trim($month),
                     'link' => $link,
+                    'category' => $category
                 ];
+                
             }
         });
-        
+    
         return $results;
     }
 }

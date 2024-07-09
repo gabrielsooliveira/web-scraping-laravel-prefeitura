@@ -14,7 +14,7 @@ class ServidoresScraperService
     {
         $data = [
             'ativo' => null,
-            'nome' => "Gutemberg",
+            'nome' => "Gabriel Souza Oliveira",
             'cargo' => "",
             'cpf' => "",
             'lotacao' => "",
@@ -26,7 +26,21 @@ class ServidoresScraperService
         ];
 
         $resultado = ServidoresRepository::getServidoresList($data);
+       
+        return $resultado->json();
+    }
 
-        dd($resultado->json());
+    public static function DetalheServidor(): array
+    {
+        $data = [
+            'cpf' => "kNBdMb0s5aIp5QOg1p17GSU6WqRjpNEDz1iPtXisKcs=",
+            'dataFim' => "2024-07-07T03:00:00.000Z",
+            'dataInicio' => "2024-01-01T03:00:00.000Z",
+            'nome' => "Gabriel Souza Oliveira"
+        ];
+        
+        $resultado = ServidoresRepository::getDetalhe($data);
+
+        return $resultado->json();
     }
 }

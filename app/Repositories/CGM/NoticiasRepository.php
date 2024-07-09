@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Http;
 
 class NoticiasRepository
 {
-    public static function getConteudoInformes($valor): Response
+    public static function getConteudoInformes($value): Response
     {
-        return Http::get("https://cgm.salvador.ba.gov.br/informe/page/$valor");
+        return Http::get("https://cgm.salvador.ba.gov.br/informe/page/$value");
     }
 }

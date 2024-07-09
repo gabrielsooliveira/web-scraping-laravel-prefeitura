@@ -18,4 +18,14 @@ class ServidoresRepository
             'Connection' => 'keep-alive'
         ])->post("https://transparencia.salvador.ba.gov.br/api/api/servidores/gridAgrupada", $data);
     }
+
+    public static function getDetalhe($data): Response
+    {
+        return Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json, text/plain, */*',
+            'Cache-Control' => 'no-cache',
+            'Connection' => 'keep-alive'
+        ])->post("https://transparencia.salvador.ba.gov.br/api/api/servidores/detalhamento", $data);
+    }
 }

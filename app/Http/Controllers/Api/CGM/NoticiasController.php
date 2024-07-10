@@ -15,7 +15,7 @@ class NoticiasController extends Controller
         if (empty($resultado)) {
             return response()->json(['msg' => 'Não foi possível obter a as noticias da CGM.'], Response::HTTP_NOT_FOUND);
         }
-    
+        
         return view('pages.noticias', compact('resultado'));
     }
 }

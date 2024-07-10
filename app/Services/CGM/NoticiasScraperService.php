@@ -26,28 +26,49 @@ class NoticiasScraperService
 
         $crawler = new Crawler($conteudo);
         
-        $results = [];
-        
-        $crawler->filter('.col-lg-2')->each(function (Crawler $node) use (&$results) {
-            if ($node->filter('.box_img_noticias')->count() > 0) {
-               
-                $name = $node->filter('h2')->last()->text();
-                $link = $node->filter('a')->first()->attr('href');
-                $date = $node->filter('.box_img_noticias h1')->first()->text();
-                $month = $node->filter('.box_img_noticias h2')->first()->text();
-                $category = $node->filter('a')->last()->text();
+        $resultados = [];
+        $anterior = null;
+        $proximo = null;
 
-                $results[] = [
-                    'name' => $name,
-                    'date' => trim($date),
-                    'month' => trim($month),
+        $crawler->filter('.col-lg-2')->each(function (Crawler $node) use (&$resultados) {
+            if ($node->filter('.box_img_noticias')->count() > 0) {
+
+                $nome = $node->filter('h2')->last()->text();
+                $link = $node->filter('a')->first()->attr('href');
+                $dia = $node->filter('.box_img_noticias h1')->first()->text();
+                $mes = $node->filter('.box_img_noticias h2')->first()->text();
+                $categoria = $node->filter('a')->last()->text();
+
+                $resultados['informes'][] = [
+                    'nome' => $nome,
+                    'dia' => trim($dia),
+                    'mes' => trim($mes),
                     'link' => $link,
-                    'category' => $category
+                    'categoria' => $categoria
                 ];
-                
             }
         });
-    
-        return $results;
+      
+        if ($crawler->filter('.previouspostslink')->count() > 0) {
+            $previousHref = $crawler->filter('.previouspostslink')->attr('href');
+            if (preg_match('/page\/(\d+)/', $previousHref, $matches)) {
+                $anterior = (int)$matches[1];
+            }
+        }
+        
+        if ($crawler->filter('.nextpostslink')->count() > 0) {
+            $nextHref = $crawler->filter('.nextpostslink')->attr('href');
+            if (preg_match('/page\/(\d+)/', $nextHref, $matches)) {
+                $proximo = (int)$matches[1];
+            }
+        }
+
+        $resultados['paginacao'] = [
+            'anterior' => $anterior,
+            'atual' => $value,
+            'proximo' => $proximo,
+        ];
+
+        return $resultados;
     }
 }

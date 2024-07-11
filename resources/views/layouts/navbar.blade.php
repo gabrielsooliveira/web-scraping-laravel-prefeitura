@@ -15,6 +15,7 @@
             <ul class="dropdown-menu dropdown-menu-end">
               <li><a class="dropdown-item {{ Route::currentRouteName() == 'cgm_informes' ? 'active' : '' }}" href="{{ route('cgm_informes') }}">Informes da CGM</a></li>
               <li><a class="dropdown-item {{ Route::currentRouteName() == 'portalt_servidores' ? 'active' : '' }}" href="{{ route('portalt_servidores') }}">Servidores da Prefeitura</a></li>
+              <li><a class="dropdown-item {{ Route::currentRouteName() == 'parecer_contas' ? 'active' : '' }}" href="{{ route('parecer_contas') }}">Parecer de Contas - TCM</a></li>
             </ul>
           </li>
         </ul>

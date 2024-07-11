@@ -4,5 +4,6 @@
 $custom-colors: ();
 
 $theme-colors: map-merge($theme-colors, $custom-colors);
+$font-sizes: map-merge($font-sizes, (7:  0.875rem));
 
 @import 'bootstrap/scss/bootstrap';

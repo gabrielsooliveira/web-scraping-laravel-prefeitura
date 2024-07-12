@@ -12,13 +12,14 @@ class ContasRepository
 {
     public static function getInfoParecer($data): Response
     {
-        return Http::withoutVerifying()->asForm()->withHeaders([
+        return Http::asForm()
+        ->withHeaders([
             'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
             'Cache-Control' => 'no-cache',
             'Connection' => 'keep-alive',
             'Pragma' => 'no-cache',
             'Content-Type' => 'application/x-www-form-urlencoded'
-        ])->post("https://www.tcm.ba.gov.br/consulta/legislacao/decisoes/contas-anuais/detalhe-conta-anual", $data);
+        ])->withOptions(['verify' => false])->post("https://www.tcm.ba.gov.br/consulta/legislacao/decisoes/contas-anuais/detalhe-conta-anual", $data);
 
         // return Http::get("https://www.tcm.ba.gov.br/consulta/legislacao/decisoes/contas-anuais/detalhe-conta-anual", $data);
     }

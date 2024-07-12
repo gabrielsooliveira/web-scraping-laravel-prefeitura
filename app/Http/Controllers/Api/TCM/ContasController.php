@@ -10,20 +10,11 @@ use Illuminate\Http\Response;
 class ContasController extends Controller
 {
     public function getParecer(){
-        $data = [
-            'ano' => 2020,
-            'ent' => "P",
-            'muni' => 00334,
-            'des' => null,
-            'contaanual' => null,
-            'B1' => "Pesquisar"
-        ];
-        
-        $resultado = ContasScraperService::Parecer($data);
+        $resultado = ContasScraperService::Parecer();
         if (empty($resultado)) {
             return response()->json(['msg' => 'Não foi possível obter o parecer de contas.'], Response::HTTP_NOT_FOUND);
         }
 
-        return view('pages.contas');
+        return view('pages.contas', compact('resultado'));
     }
 }

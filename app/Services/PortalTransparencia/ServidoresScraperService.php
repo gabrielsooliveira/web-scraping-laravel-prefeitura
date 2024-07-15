@@ -14,13 +14,13 @@ class ServidoresScraperService
     {
         $data = [
             'ativo' => null,
-            'nome' => "",
+            'nome' => "JOU ALEXANDRE DE JESUS OLIVEIRA JUNIOR",
             'cargo' => "",
             'cpf' => "",
             'lotacao' => "",
-            'orgao' => "CGM",
+            'orgao' => "",
             'tipo' => "",
-            'vinculo' => "ESTATUTARIO",
+            'vinculo' => "",
             'dataInicio' => '2024-01-01T00:00:00Z',
             'dataFim' => '2024-07-07T03:00:00Z',
         ];

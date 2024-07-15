@@ -12,7 +12,7 @@ class ContasScraperService
 {
     public static function Parecer(): array
     {
-        $anos = ["2019", "2020", "2021", "2022", "2023"];
+        $anos = ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"];
         $pareceres = [];
 
         foreach ($anos as $value) {
@@ -35,6 +35,7 @@ class ContasScraperService
                 'exercicio' => $crawler->filter('label:contains("Exercício:") + span')->text(),
                 'transitado_em_julgado' => $crawler->filter('label:contains("Transitado em Julgado:") + span')->text(),
                 'publicacao' => $crawler->filter('label:contains("Publicação:") + span')->text(),
+                'decisaoTCM' => $crawler->filter('label:contains("Última Decisão do TCM:") + span')->text(),
                 'pdfs' => $crawler->filter('li.list_item_content')->each(function (Crawler $node) {
                     $link = $node->filter('a')->attr('href');
                     $title = $node->filter('a span')->text();

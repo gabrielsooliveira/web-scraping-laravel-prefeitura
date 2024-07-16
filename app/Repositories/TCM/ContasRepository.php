@@ -20,7 +20,5 @@ class ContasRepository
             'Pragma' => 'no-cache',
             'Content-Type' => 'application/x-www-form-urlencoded'
         ])->withOptions(['verify' => false])->post("https://www.tcm.ba.gov.br/consulta/legislacao/decisoes/contas-anuais/detalhe-conta-anual", $data);
-
-        // return Http::get("https://www.tcm.ba.gov.br/consulta/legislacao/decisoes/contas-anuais/detalhe-conta-anual", $data);
     }
 }

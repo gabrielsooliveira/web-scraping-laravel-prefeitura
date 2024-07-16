@@ -23,4 +23,6 @@ Route::get('/', function () {
 Route::get('/cgm/{value?}', [NoticiasController::class, 'getInformes'])->name('cgm_informes');
 Route::get('/servidores', [ServidoresController::class, 'getServidores'])->name('portalt_servidores');
 Route::get('/detalheservidor', [ServidoresController::class, 'getDetalheServidor'])->name('portalt_servidor_detalhes');
-Route::get('/parecer', [ContasController::class, 'getParecer'])->name('parecer_contas');
+Route::get('/parecer/todos', [ContasController::class, 'getParecerAll'])->name('parecer_contas_todos');
+Route::get('/parecer/prefeitura', [ContasController::class, 'getParecer'])->name('parecer_contas_prefeitura');
+Route::get('/parecer/descentralizada', [ContasController::class, 'getParecerDesc'])->name('parecer_contas_descentralizada');

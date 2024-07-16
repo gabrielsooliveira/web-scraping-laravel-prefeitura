@@ -107,16 +107,16 @@
                     <table class="table table-sm">
                         <thead class="text-capitalize">
                             <tr>
-                                <th scope="col" style="min-width: 150px; white-space: nowrap;">CPF</th>
-                                <th scope="col" style="min-width: 280px; white-space: nowrap;">nome</th>
-                                <th scope="col" style="min-width: 180px; white-space: nowrap;">cargo</th>
-                                <th scope="col" style="min-width: 180px; white-space: nowrap;">tipo</th>
-                                <th scope="col" style="min-width: 180px; white-space: nowrap;">vinculo</th>
-                                <th scope="col" style="min-width: 180px; white-space: nowrap;">orgão</th>
-                                <th scope="col" style="min-width: 280px; white-space: nowrap;">lotação</th>
-                                <th scope="col" style="min-width: 180px; white-space: nowrap;">admissão</th>
-                                <th scope="col" style="min-width: 180px; white-space: nowrap;">desligamento</th>
-                                <th scope="col" style="min-width: 180px; white-space: nowrap;">carga horaria</th>
+                                <th scope="col">CPF</th>
+                                <th scope="col">nome</th>
+                                <th scope="col">cargo</th>
+                                <th scope="col">tipo</th>
+                                <th scope="col">vinculo</th>
+                                <th scope="col">orgão</th>
+                                <th scope="col">lotação</th>
+                                <th scope="col">admissão</th>
+                                <th scope="col">desligamento</th>
+                                <th scope="col">carga horaria</th>
                             </tr>
                         </thead>
                         <tbody>

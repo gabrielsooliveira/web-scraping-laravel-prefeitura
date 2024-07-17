@@ -27,7 +27,7 @@
                     <br>
                     <ul class="list-group list-group-flush mt-3">
                     @foreach ($item['pdfs'] as $pdf)
-                        <li class="list-group-item"><a href="https://www.tcm.ba.gov.br/{{ $pdf['link'] }}" target="_blank">{{ $pdf['title'] }}</a></li>
+                        <li class="list-group-item"><a href="https://www.tcm.ba.gov.br/{{ $pdf['link'] }}" target="_blank" class="text-decoration-none">{{ $pdf['title'] }}</a></li>
                     @endforeach
                     </ul>
                 </div>

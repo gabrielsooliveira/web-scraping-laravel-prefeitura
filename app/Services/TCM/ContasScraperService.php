@@ -47,7 +47,7 @@ class ContasScraperService
 
             $pareceres[$value]['PREFEITURA'] = $parecer;
         }
-      
+        
         return $pareceres;
     }
 

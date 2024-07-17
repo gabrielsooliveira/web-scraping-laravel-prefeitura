@@ -26,15 +26,21 @@ class ContasController extends Controller
             return response()->json(['msg' => 'Não foi possível obter o parecer de contas.'], Response::HTTP_NOT_FOUND);
         }
 
-        return view('pages.contas_prefeitura', compact('resultado'));
+        return view('pages.contas_descentralizada', compact('resultado'));
     }
 
     public function getParecerAll(){
-        $resultado_um = ContasScraperService::Parecer();
-        $resultado_dois = ContasScraperService::ParecerDescentralizada();
+        $resultados_um = ContasScraperService::Parecer();
+        $resultados_dois = ContasScraperService::ParecerDescentralizada();
 
-            $resultado = Arr::crossJoin($resultado_um, $resultado_dois);
-            dd($resultado);
-        
+        if (empty($resultados_um) || empty($resultados_dois)) {
+            return response()->json(['msg' => 'Não foi possível obter o parecer de contas.'], Response::HTTP_NOT_FOUND);
+        }
+
+        foreach ($resultados_um as $key => $value_um) {
+            $resultado[$key] = array_merge($value_um, $resultados_dois[$key]);
+        }
+
+        return view('pages.contas', compact('resultado'));
     }
 }

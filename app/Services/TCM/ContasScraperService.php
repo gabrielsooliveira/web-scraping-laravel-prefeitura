@@ -12,7 +12,7 @@ class ContasScraperService
 {
     public static function Parecer(): array
     {
-        $anos = ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"];
+        $anos = ["2023", "2022", "2021", "2020", "2019"];
         $pareceres = [];
 
         foreach ($anos as $value) {
@@ -53,8 +53,8 @@ class ContasScraperService
 
     public static function ParecerDescentralizada(): array
     {
-        set_time_limit(360);
-        $anos = ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"];
+        set_time_limit(300);
+        $anos = ["2023", "2022", "2021", "2020", "2019"];
         $empresas = ["ARSAL", "COGEL", "CTM", "DESAL", "FCF", "FCM", "FGM", "FMLF", "GCM", "LIMPURB", "SALTUR", "SUCOP", "TRANSALVADOR"];
         $pareceres = [];
 

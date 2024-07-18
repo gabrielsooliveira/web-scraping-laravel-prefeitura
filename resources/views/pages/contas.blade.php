@@ -10,21 +10,21 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">Exercício</th>
-                        <th scope="col">Local</th>
-                        <th scope="col">Gestor</th>
-                        <th scope="col">Data de Publicação</th>
-                        <th scope="col">Transitado em Julgado</th>
-                        <th scope="col">Última Decisão do TCM</th>
-                        <th scope="col">PDF's</th>
+                        <th scope="col" onclick="sortTable(0)" width="140">Exercício <i class="bi bi-chevron-expand pe-auto"></i></th>
+                        <th scope="col" onclick="sortTable(1)" width="140">Local <i class="bi bi-chevron-expand pe-auto"></i></th>
+                        <th scope="col" onclick="sortTable(2)" width="800">Gestor <i class="bi bi-chevron-expand pe-auto"></i></th>
+                        <th scope="col" width="260">Data de Publicação</th>
+                        <th scope="col" width="260">Transitado em Julgado</th>
+                        <th scope="col" width="300">Última Decisão do TCM</th>
+                        <th scope="col" width="130">PDF's</th>
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
                     @foreach ($resultado as $key => $item)
                         @foreach ($item as $local => $value)
-                        <tr>
-                            <th scope="row">{{ $key }}</th>
-                            <th scope="row">{{ $local }}</th>
+                        <tr class="{{ $value['publicacao'] === 'NÃO INFORMADO' ? 'table-success' : '' }}">
+                            <td scope="row">{{ $key }}</td>
+                            <td>{{ $local }}</td>
                             <td>{{ $value['gestor'] ? $value['gestor'] : 'NÃO INFORMADO' }}</td>
                             <td>{{ $value['publicacao'] ? $value['publicacao'] : 'NÃO INFORMADO' }}</td>
                             <td>{{ $value['transitado_em_julgado']  }}</td>
@@ -61,3 +61,34 @@
     @endforeach
 </div>
 @endsection
+
+@push('scripts')
+<script>
+let sortOrder = {};
+
+function sortTable(columnIndex) {
+    const table = document.querySelector("table");
+    const tbody = table.tBodies[0];
+    const rows = Array.from(tbody.querySelectorAll("tr"));
+
+    sortOrder[columnIndex] = !sortOrder[columnIndex];
+
+    const sortedRows = rows.sort((a, b) => {
+        const aText = a.cells[columnIndex].textContent.trim();
+        const bText = b.cells[columnIndex].textContent.trim();
+
+        if (isNaN(aText) || isNaN(bText)) {
+            return sortOrder[columnIndex] ? aText.localeCompare(bText) : bText.localeCompare(aText);
+        } else {
+            return sortOrder[columnIndex] ? aText - bText : bText - aText;
+        }
+    });
+
+    while (tbody.firstChild) {
+        tbody.removeChild(tbody.firstChild);
+    }
+
+    tbody.append(...sortedRows);
+}
+</script>
+@endpush

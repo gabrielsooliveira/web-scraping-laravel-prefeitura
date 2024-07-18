@@ -10,9 +10,9 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th scope="col" onclick="sortTable(0)" width="140">Exercício <i class="bi bi-chevron-expand pe-auto"></i></th>
-                        <th scope="col" onclick="sortTable(1)" width="140">Local <i class="bi bi-chevron-expand pe-auto"></i></th>
-                        <th scope="col" onclick="sortTable(2)" width="800">Gestor <i class="bi bi-chevron-expand pe-auto"></i></th>
+                        <th scope="col" onclick="sortTable(0)" width="140"><a href="#" class="pe-auto text-decoration-none link-dark">Exercício <i class="bi bi-chevron-expand"></i></a></th>
+                        <th scope="col" onclick="sortTable(1)" width="140"><a href="#" class="pe-auto text-decoration-none link-dark">Local<i class="bi bi-chevron-expand"></i></a></th>
+                        <th scope="col" onclick="sortTable(2)" width="800"><a href="#" class="pe-auto text-decoration-none link-dark">Gestor<i class="bi bi-chevron-expand"></i></a></th>
                         <th scope="col" width="260">Data de Publicação</th>
                         <th scope="col" width="260">Transitado em Julgado</th>
                         <th scope="col" width="300">Última Decisão do TCM</th>

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CGM\NoticiasController;
 use App\Http\Controllers\Api\PortalTransparencia\ServidoresController;
 use App\Http\Controllers\Api\TCM\ContasController;
+use App\Http\Controllers\Api\DOM\DiarioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,4 @@ Route::get('/detalheservidor', [ServidoresController::class, 'getDetalheServidor
 Route::get('/parecer/todos', [ContasController::class, 'getParecerAll'])->name('parecer_contas_todos');
 Route::get('/parecer/prefeitura', [ContasController::class, 'getParecer'])->name('parecer_contas_prefeitura');
 Route::get('/parecer/descentralizada', [ContasController::class, 'getParecerDesc'])->name('parecer_contas_descentralizada');
+Route::get('/diario/{value?}', [DiarioController::class, 'getDiariosAll'])->name('diario_oficial');

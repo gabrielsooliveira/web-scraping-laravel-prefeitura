@@ -14,7 +14,7 @@ class DiarioController extends Controller
         if (empty($resultado)) {
             return response()->json(['msg' => 'Não foi possível obter a os diarios oficiais do Municipio.'], Response::HTTP_NOT_FOUND);
         }
-
+        
         return view('pages.diario', compact('resultado'));
     }
 }

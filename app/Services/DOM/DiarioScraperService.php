@@ -7,6 +7,7 @@ namespace App\Services\DOM;
 use App\Repositories\DOM\DiarioRepository;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\DomCrawler\Crawler;
+use Smalot\PdfParser\Parser;
 
 class DiarioScraperService
 {
@@ -28,9 +29,11 @@ class DiarioScraperService
             $href = $node->filter('a')->attr('href');
             preg_match('/id=(\d+)/', $href, $matches);
             $id = $matches[1] ?? '0000';
-
+            
             $pdfLink = self::LinkPdf($id);
-
+            /*
+            $pdfInfo = self::getPdfInfo($pdfLink);
+            */
             return [
                 'date' => $date,
                 'title' => $title,
@@ -71,5 +74,50 @@ class DiarioScraperService
         $link = $crawler->filter('h3 a')->attr('href');
 
         return $link;
+    }
+
+    private static function getPdfInfo(string $url): array
+    {
+        $client = HttpClient::create();
+        $response = $client->request('GET', $url);
+        $pdfContent = $response->getContent();
+
+        $parser = new Parser();
+        $pdf = $parser->parseContent($pdfContent);
+
+        $text = $pdf->getText();
+
+        // Extrair parágrafos que começam com "RESOLVE:" e capturar o texto até o próximo parágrafo
+        preg_match_all('/(?:exonera[^\n]*\n(?:[^\n]*\n?){0,1}[^\n]*(?:\n|$)){1,2}/is', $text, $matches);
+        $dataNames = [];
+        $filtros = [
+            "/desde \d{2}\/\d{2}\/\d{4},\s*([^\n,]+?)(?:,|$)/u", 
+            "/a partir de (\d{2}\/\d{2}\/\d{4})[^\n]*o servidor\s*([^\n,]+),/",
+            "/desde (\d{2}\/\d{2}\/\d{4})[^\n]*a servidora\s*([\s\S]*?)(?:,\s*|$)/i",
+            "/desde (\d{2}\/\d{2}\/\d{4})[^\n]*o servidor\s*([\s\S]*?)(?:,\s*|$)/i",
+        ];
+
+        foreach ($filtros as $filtro) {
+            // Executa a expressão regular
+            preg_match_all($filtro, $text, $matches, PREG_SET_ORDER);
+    
+            // Processa cada correspondência encontrada
+            foreach ($matches as $match) {
+                // Verifica e ajusta os índices para extrair a data e o nome
+                $date = isset($match[1]) ? trim($match[1]) : null;
+                $name = isset($match[2]) ? trim(preg_replace('/\s+/', ' ', $match[2])) : null;
+    
+                // Adiciona os dados ao array de resultados
+                $dataNames[] = [
+                    'data' => $date,
+                    'nome' => $name,
+                ];
+            }
+        }
+
+        dd($dataNames, $text);
+        return [
+            'resolves' => $matches[0], // Parágrafos que começam com "RESOLVE:" e texto subsequente
+        ];
     }
 }

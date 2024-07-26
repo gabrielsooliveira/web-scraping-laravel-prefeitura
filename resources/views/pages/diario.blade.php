@@ -2,9 +2,14 @@
 
 @section('content')
 <div class="container">
-   <div class="mt-5">
-        <nav aria-label="Page navigation example" class="mb-2">
-            <ul class="pagination justify-content-end m-0 p-0">
+   <div class="mt-4">
+        <nav aria-label="Page navigation example" class="mb-2 d-flex">
+            @if($resultado['paginacao']['fim'] == null)
+            <span class="mt-2">{{ $resultado['paginacao']['atual']/10 + 1 }} de {{ $resultado['paginacao']['atual']/10 + 1 }} Páginas</span>
+            @else
+            <span class="mt-2">{{ $resultado['paginacao']['atual']/10 + 1 }} de {{ $resultado['paginacao']['fim']/10 + 1 }} Páginas</span>
+            @endif
+            <ul class="pagination ms-auto p-0">
                 <li class="page-item">
                     <a class="page-link link-dark {{ $resultado['paginacao']['atual'] === 0 ? 'disabled' : '' }}" href="{{ route('diario_oficial') }}"><< Início</a>
                 </li>
@@ -12,10 +17,10 @@
                     <a class="page-link link-dark {{ $resultado['paginacao']['atual'] === 0 ? 'disabled' : '' }}" href="{{ route('diario_oficial', $resultado['paginacao']['anterior']) }}"><< Anterior</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link link-dark {{ $resultado['paginacao']['proximo'] === null ? 'disabled' : '' }}" href="{{ route('diario_oficial', $resultado['paginacao']['proximo']) }}">Próximo >></a>
+                    <a class="page-link link-dark {{ $resultado['paginacao']['fim'] === null ? 'disabled' : '' }}" href="{{ route('diario_oficial', $resultado['paginacao']['proximo']) }}">Próximo >></a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link link-dark {{ $resultado['paginacao']['proximo'] === null ? 'disabled' : '' }}" href="{{ route('diario_oficial', $resultado['paginacao']['fim']) }}">Fim >></a>
+                    <a class="page-link link-dark {{ $resultado['paginacao']['fim'] === null ? 'disabled' : '' }}" href="{{ route('diario_oficial', $resultado['paginacao']['fim']) }}">Fim >></a>
                 </li>
             </ul>
         </nav>

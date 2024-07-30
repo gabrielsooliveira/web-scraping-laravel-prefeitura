@@ -4,17 +4,13 @@
 <div class="container">
    <div class="mt-4">
         <nav aria-label="Page navigation example" class="mb-2 d-flex">
-            {{-- @if($resultado['paginacao']['fim'] == null)
-            <span class="mt-2">{{ $resultado['paginacao']['atual']/10 + 1 }} de {{ $resultado['paginacao']['atual']/10 + 1 }} Páginas</span>
-            @else
-            <span class="mt-2">{{ $resultado['paginacao']['atual']/10 + 1 }} de {{ $resultado['paginacao']['fim']/10 + 1 }} Páginas</span>
-            @endif --}}
+            <span class="mt-2">{{ $resultados->currentPage() }} de {{ $resultados->lastPage() }} Páginas</span>
             <ul class="pagination ms-auto p-0">
                 <li class="page-item">
-                    <a class="page-link link-dark" href="{{ $resultados->previousPageUrl() }}"> << </a>
+                    <a class="page-link link-dark {{ $resultados->currentPage() === 1 ? 'disabled' : '' }}" href="{{ $resultados->previousPageUrl() }}"> << Anterior </a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link link-dark" href="{{ $resultados->nextPageUrl() }}"> >> </a>
+                    <a class="page-link link-dark {{ $resultados->currentPage() === $resultados->lastPage() ? 'disabled' : '' }}" href="{{ $resultados->nextPageUrl() }}"> Proxima >> </a>
                 </li>
             </ul>
         </nav>
@@ -40,4 +36,4 @@
         </table>
    </div>
 </div>
-@endsection
+@endsectionj

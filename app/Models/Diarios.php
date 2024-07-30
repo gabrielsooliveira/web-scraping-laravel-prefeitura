@@ -10,7 +10,8 @@ class Diarios extends Model
     protected $table = 'diarios';
     protected $fillable = [
         'codigo',
-        'data_publicacao'
+        'data_publicacao',
+        'url'
     ];
 
     public $timestamps = false;

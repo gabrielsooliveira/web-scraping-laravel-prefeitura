@@ -4,23 +4,17 @@
 <div class="container">
    <div class="mt-4">
         <nav aria-label="Page navigation example" class="mb-2 d-flex">
-            @if($resultado['paginacao']['fim'] == null)
+            {{-- @if($resultado['paginacao']['fim'] == null)
             <span class="mt-2">{{ $resultado['paginacao']['atual']/10 + 1 }} de {{ $resultado['paginacao']['atual']/10 + 1 }} Páginas</span>
             @else
             <span class="mt-2">{{ $resultado['paginacao']['atual']/10 + 1 }} de {{ $resultado['paginacao']['fim']/10 + 1 }} Páginas</span>
-            @endif
+            @endif --}}
             <ul class="pagination ms-auto p-0">
                 <li class="page-item">
-                    <a class="page-link link-dark {{ $resultado['paginacao']['atual'] === 0 ? 'disabled' : '' }}" href="{{ route('diario_oficial') }}"><< Início</a>
+                    <a class="page-link link-dark" href="{{ $resultados->previousPageUrl() }}"> << </a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link link-dark {{ $resultado['paginacao']['atual'] === 0 ? 'disabled' : '' }}" href="{{ route('diario_oficial', $resultado['paginacao']['anterior']) }}"><< Anterior</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link link-dark {{ $resultado['paginacao']['fim'] === null ? 'disabled' : '' }}" href="{{ route('diario_oficial', $resultado['paginacao']['proximo']) }}">Próximo >></a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link link-dark {{ $resultado['paginacao']['fim'] === null ? 'disabled' : '' }}" href="{{ route('diario_oficial', $resultado['paginacao']['fim']) }}">Fim >></a>
+                    <a class="page-link link-dark" href="{{ $resultados->nextPageUrl() }}"> >> </a>
                 </li>
             </ul>
         </nav>
@@ -34,12 +28,12 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($resultado['diarios'] as $value)
+                @foreach ($resultados as $value)
                 <tr>
-                    <th scope="row">{{ $value['title'] }}</th>
-                    <td>{{ date('d/m/Y', strtotime($value['date'])) }}</td>
+                    <th scope="row">{{ $value['codigo'] }}</th>
+                    <td>{{ date('d/m/Y', strtotime($value['data_publicacao'])) }}</td>
                     <td></td>
-                    <td><a type="button" class="btn btn-primary btn-sm" href="{{ $value['link'] }}" target="_blank">Visualizar</a></td>
+                    <td><a type="button" class="btn btn-primary btn-sm" href="{{ Storage::url('DOM/' . $value['url']) }}" target="_blank">Visualizar</a></td>
                 </tr>
                 @endforeach
             </tbody>

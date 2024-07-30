@@ -33,11 +33,12 @@ class ProcessDailyData extends Command
     public function handle()
     {
         $diarios = DiarioScraperService::getRecentDOM();
-        // o foreach foi colocado na intenção de caso houver mais de um registro encontrado subir todos os registros encontrados
+
         foreach ($diarios as $item) {
             Diarios::create([
                 'codigo' => $item['codigo'],
-                'data_publicacao' => $item['data_publicacao']
+                'data_publicacao' => $item['data_publicacao'],
+                'url' => $item['url']
             ]);
         }
     }

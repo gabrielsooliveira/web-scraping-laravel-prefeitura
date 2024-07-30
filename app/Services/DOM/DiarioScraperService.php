@@ -43,12 +43,12 @@ class DiarioScraperService
                 $id = $matches[1] ?? '0000';
                 
                 $pdfLink = self::getPdf($id, $codigo, $date);
-                
                 // $pdfInfo = self::getPdfInfo($pdfLink);
 
                 return [
                     'data_publicacao' => $date,
                     'codigo' => trim($codigo),
+                    'url' => $pdfLink
                 ];
             });
 
@@ -66,34 +66,48 @@ class DiarioScraperService
     public static function getRecentDOM(): array 
     {
         $ultimoRegistro = Diarios::orderBy('data_publicacao', 'desc')->orderBy('codigo', 'desc')->first();
-
         $dataUltimoRegistro = $ultimoRegistro ? $ultimoRegistro->data_publicacao : null;
         $codigoUltimoRegistro = $ultimoRegistro ? $ultimoRegistro->codigo : null;
-
         $resultado = DiarioRepository::getDataDOMs(0);
         if ($resultado->failed()) {
-            logs()->debug("Falha ao fazer a consulta ao repository.", ['status' => $resultado->status(), 'msg' => $resultado->json()]);
+            logs()->debug("Falha ao fazer a consulta ao repository.", [
+                'status' => $resultado->status(),
+                'msg' => $resultado->json()
+            ]);
             return [];
         }
 
         $html = $resultado->getBody()->getContents();
         $crawler = new Crawler($html);
 
-        $diarios = $crawler->filter('.dmarticlesfilter_results_row')->each(function (Crawler $node) {
+        $diarios = $crawler->filter('.dmarticlesfilter_results_row')->each(function (Crawler $node) use ($dataUltimoRegistro, $codigoUltimoRegistro) {
             $date = $node->filter('#dmarticlesfilter_results_date')->text();
             $title = trim(explode(' - ', $node->filter('a')->text())[1]);
             $codigo = preg_replace('/^DOM-/', '', $title);
-            return [
-                'data_publicacao' => $date,
-                'codigo' => $codigo,
-            ];
+    
+            if ($codigo > $codigoUltimoRegistro && $date > $dataUltimoRegistro) {
+                if (strpos($codigo, 'Republicado') !== false) {
+                    $codigo = str_replace(['-Republicado por erro de formatação.', '-Republicado por erro de formataÃ§Ã£o.'], '', $codigo);
+                }
+
+                $href = $node->filter('a')->attr('href');
+                preg_match('/id=(\d+)/', $href, $matches);
+                $id = $matches[1] ?? '0000';
+
+                $pdfLink = self::getPdf($id, $codigo, $date);
+
+                return [
+                    'data_publicacao' => $date,
+                    'codigo' => trim($codigo),
+                    'url' => $pdfLink
+                ];
+            }
+
+            return null;
         });
 
-        $diarioRecente = array_filter($diarios, function ($diario) use ($dataUltimoRegistro, $codigoUltimoRegistro) {
-            return $diario['codigo'] > $codigoUltimoRegistro && $diario['data_publicacao'] > $dataUltimoRegistro;
-        });
-
-        return $diarioRecente;
+        $diarios = array_filter($diarios);
+        return $diarios;
     }
 
     private static function getPdf(string $id, string $codigo, string $date): string
@@ -138,47 +152,47 @@ class DiarioScraperService
     }
 
 
-    // private static function getPdfInfo(string $url): array
-    // {
-    //     
-    //     $pdfContent = $response->getContent();
+    private static function getPdfInfo(string $url): array
+    {
+        $response = Http::get($url);
+        $pdfContent = $response->getContent();
 
-    //     $parser = new Parser();
-    //     $pdf = $parser->parseContent($pdfContent);
+        $parser = new Parser();
+        $pdf = $parser->parseContent($pdfContent);
 
-    //     $text = $pdf->getText();
+        $text = $pdf->getText();
 
-    //     // Extrair parágrafos que começam com "RESOLVE:" e capturar o texto até o próximo parágrafo
-    //     preg_match_all('/(?:exonera[^\n]*\n(?:[^\n]*\n?){0,1}[^\n]*(?:\n|$)){1,2}/is', $text, $matches);
-    //     $dataNames = [];
-    //     $filtros = [
-    //         "/desde \d{2}\/\d{2}\/\d{4},\s*([^\n,]+?)(?:,|$)/u", 
-    //         "/a partir de (\d{2}\/\d{2}\/\d{4})[^\n]*o servidor\s*([^\n,]+),/",
-    //         "/desde (\d{2}\/\d{2}\/\d{4})[^\n]*a servidora\s*([\s\S]*?)(?:,\s*|$)/i",
-    //         "/desde (\d{2}\/\d{2}\/\d{4})[^\n]*o servidor\s*([\s\S]*?)(?:,\s*|$)/i",
-    //     ];
+        // Extrair parágrafos que começam com "RESOLVE:" e capturar o texto até o próximo parágrafo
+        preg_match_all('/(?:exonera[^\n]*\n(?:[^\n]*\n?){0,1}[^\n]*(?:\n|$)){1,2}/is', $text, $matches);
+        $dataNames = [];
+        $filtros = [
+            "/desde \d{2}\/\d{2}\/\d{4},\s*([^\n,]+?)(?:,|$)/u", 
+            "/a partir de (\d{2}\/\d{2}\/\d{4})[^\n]*o servidor\s*([^\n,]+),/",
+            "/desde (\d{2}\/\d{2}\/\d{4})[^\n]*a servidora\s*([\s\S]*?)(?:,\s*|$)/i",
+            "/desde (\d{2}\/\d{2}\/\d{4})[^\n]*o servidor\s*([\s\S]*?)(?:,\s*|$)/i",
+        ];
 
-    //     foreach ($filtros as $filtro) {
-    //         // Executa a expressão regular
-    //         preg_match_all($filtro, $text, $matches, PREG_SET_ORDER);
+        foreach ($filtros as $filtro) {
+            // Executa a expressão regular
+            preg_match_all($filtro, $text, $matches, PREG_SET_ORDER);
     
-    //         // Processa cada correspondência encontrada
-    //         foreach ($matches as $match) {
-    //             // Verifica e ajusta os índices para extrair a data e o nome
-    //             $date = isset($match[1]) ? trim($match[1]) : null;
-    //             $name = isset($match[2]) ? trim(preg_replace('/\s+/', ' ', $match[2])) : null;
+            // Processa cada correspondência encontrada
+            foreach ($matches as $match) {
+                // Verifica e ajusta os índices para extrair a data e o nome
+                $date = isset($match[1]) ? trim($match[1]) : null;
+                $name = isset($match[2]) ? trim(preg_replace('/\s+/', ' ', $match[2])) : null;
     
-    //             // Adiciona os dados ao array de resultados
-    //             $dataNames[] = [
-    //                 'data' => $date,
-    //                 'nome' => $name,
-    //             ];
-    //         }
-    //     }
+                // Adiciona os dados ao array de resultados
+                $dataNames[] = [
+                    'data' => $date,
+                    'nome' => $name,
+                ];
+            }
+        }
 
-    //     dd($dataNames, $text);
-    //     return [
-    //         'resolves' => $matches[0], // Parágrafos que começam com "RESOLVE:" e texto subsequente
-    //     ];
-    // }
+        dd($dataNames, $text);
+        return [
+            'resolves' => $matches[0], // Parágrafos que começam com "RESOLVE:" e texto subsequente
+        ];
+    }
 }

@@ -27,4 +27,4 @@ Route::get('/detalheservidor', [ServidoresController::class, 'getDetalheServidor
 Route::get('/parecer/todos', [ContasController::class, 'getParecerAll'])->name('parecer_contas_todos');
 Route::get('/parecer/prefeitura', [ContasController::class, 'getParecer'])->name('parecer_contas_prefeitura');
 Route::get('/parecer/descentralizada', [ContasController::class, 'getParecerDesc'])->name('parecer_contas_descentralizada');
-Route::get('/diario/{value?}', [DiarioController::class, 'getDiariosAll'])->name('diario_oficial');
+Route::get('/diario', [DiarioController::class, 'getDiariosAll'])->name('diario_oficial');

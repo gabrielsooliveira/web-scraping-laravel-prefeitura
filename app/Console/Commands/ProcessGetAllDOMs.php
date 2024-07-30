@@ -33,6 +33,7 @@ class ProcessGetAllDOMs extends Command
             Diarios::create([
                 'codigo' => $item['codigo'],
                 'data_publicacao' => $item['data_publicacao'],
+                'url' => $item['url']
             ]);
         }
     }

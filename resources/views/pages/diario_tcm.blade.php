@@ -9,7 +9,7 @@
                     <tr>
                         <th scope="col">DOM</th>
                         <th scope="col">Data de publicação</th>
-                        <th scope="col">PDF</th>
+                        <th scope="col">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -17,7 +17,11 @@
                     <tr>
                         <th scope="row">DOM - {{ $value['numero'] }}</th>
                         <td>{{ date('d/m/Y', strtotime($value['data'])) }}</td>
-                        <td><a type="button" class="btn btn-primary btn-sm" href="https://egbanet.egba.ba.gov.br/tcm/ver-pdf/{{ $value['id'] }}/#/p:1/e:{{ $value['id'] }}" target="_blank">Visualizar</a></td>
+                        <td>
+                            <a type="button" class="btn btn-primary btn-sm" href="https://egbanet.egba.ba.gov.br/tcm/ver-pdf/{{ $value['id'] }}/#/p:1/e:{{ $value['id'] }}" target="_blank">PDF</a>
+                            <a type="button" class="btn btn-warning btn-sm" href="https://egbanet.egba.ba.gov.br/tcm/ver-flip/{{ $value['id'] }}/#/p:1/e:{{ $value['id'] }}" target="_blank">FLIP</a>
+                            <a type="button" class="btn btn-danger btn-sm" href="https://egbanet.egba.ba.gov.br/tcm/ver-html/{{ $value['id'] }}/#/p:1/e:{{ $value['id'] }}" target="_blank">HTML</a>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>

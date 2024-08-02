@@ -5,6 +5,7 @@ declare (strict_types = 1);
 namespace App\Services\DOM;
 
 use App\Repositories\DOM\DiarioRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\DomCrawler\Crawler;
 use Smalot\PdfParser\Parser;
@@ -85,7 +86,7 @@ class DiarioScraperService
             $title = trim(explode(' - ', $node->filter('a')->text())[1]);
             $codigo = preg_replace('/^DOM-/', '', $title);
     
-            if ($codigo > $codigoUltimoRegistro && $date > $dataUltimoRegistro) {
+            if ($codigo > $codigoUltimoRegistro && $date >= $dataUltimoRegistro) {
                 if (strpos($codigo, 'Republicado') !== false) {
                     $codigo = str_replace(['-Republicado por erro de formatação.', '-Republicado por erro de formataÃ§Ã£o.'], '', $codigo);
                 }
@@ -105,7 +106,7 @@ class DiarioScraperService
 
             return null;
         });
-
+    
         $diarios = array_filter($diarios);
         return $diarios;
     }
@@ -124,9 +125,10 @@ class DiarioScraperService
         $mes = date('m', strtotime($date));
 
         // Definir o caminho base
-        $basePath = "public/DOM/{$ano}/{$mes}";
+        $basePath = "{$ano}/{$mes}";
         $fileName = "dom-{$codigo}-{$date}.pdf";
-        $filePath = "{$basePath}/{$fileName}";
+        $url = "{$basePath}/{$fileName}";
+        $filePath = "public/DOM/{$url}";
 
         // Verificar se o arquivo já existe e adicionar "-republicado" se necessário
         $counter = 1;
@@ -140,25 +142,23 @@ class DiarioScraperService
             $counter++;
         }
 
-        // Criar diretório se não existir
         if (!Storage::exists($basePath)) {
             Storage::makeDirectory($basePath);
         }
 
-        // Salvar o PDF no armazenamento
         Storage::put($filePath, $pdfContent);
 
-        return $filePath;
+        return $url;
     }
 
 
-    private static function getPdfInfo(string $url): array
+    public static function getPdfInfo(string $url): array
     {
-        $response = Http::get($url);
-        $pdfContent = $response->getContent();
-
+        ini_set('memory_limit', '3G');
+        $filePath = Storage::get("public/DOM/$url");
+      
         $parser = new Parser();
-        $pdf = $parser->parseContent($pdfContent);
+        $pdf = $parser->parseContent($filePath);
 
         $text = $pdf->getText();
 
@@ -166,6 +166,8 @@ class DiarioScraperService
         preg_match_all('/(?:exonera[^\n]*\n(?:[^\n]*\n?){0,1}[^\n]*(?:\n|$)){1,2}/is', $text, $matches);
         $dataNames = [];
         $filtros = [
+            "/(?:nomear\s+a\s+servidora\s+abaixo\s+relacionada.*?exerce\s+o\s+cargo\s+em\s+comissão\s+de\s+Diretor.*?Unidade\s+de\s+Ensino:\s*([^0-9]+)\s*(?:\d{2} de \w+ de \d{4}))/is", // Captura o nome e data
+            "/SERVIDOR\s+MATRICULA\s+CÓDIGO\/ESCOLA\s*NÍVEL\s*([\s\S]*?)\s*GABINETE\s*DA\s*SECRETARIA\s*MUNICIPAL\s*DA\s*EDUCAÇÃO\s*,\s*(\d{2} de \w+ de \d{4})/i",
             "/desde \d{2}\/\d{2}\/\d{4},\s*([^\n,]+?)(?:,|$)/u", 
             "/a partir de (\d{2}\/\d{2}\/\d{4})[^\n]*o servidor\s*([^\n,]+),/",
             "/desde (\d{2}\/\d{2}\/\d{4})[^\n]*a servidora\s*([\s\S]*?)(?:,\s*|$)/i",
@@ -181,18 +183,23 @@ class DiarioScraperService
                 // Verifica e ajusta os índices para extrair a data e o nome
                 $date = isset($match[1]) ? trim($match[1]) : null;
                 $name = isset($match[2]) ? trim(preg_replace('/\s+/', ' ', $match[2])) : null;
-    
+                
+                if ($date) {
+                    try {
+                        $date = Carbon::createFromFormat('d/m/Y', $date)->format('Y-m-d');
+                    } catch (\Exception $e) {
+                        dd("Erro ao transformar a data: $date e esse é o pdf $url", $e->getMessage());
+                    }
+                }
+                
                 // Adiciona os dados ao array de resultados
                 $dataNames[] = [
-                    'data' => $date,
+                    'data_exoneracao' => $date,
                     'nome' => $name,
                 ];
             }
         }
 
-        dd($dataNames, $text);
-        return [
-            'resolves' => $matches[0], // Parágrafos que começam com "RESOLVE:" e texto subsequente
-        ];
+        return $dataNames;
     }
 }

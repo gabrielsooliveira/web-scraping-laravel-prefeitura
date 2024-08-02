@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use App\Models\Diarios;
 use App\Services\DOM\DiarioScraperService;
 
-class ProcessDailyData extends Command
+class ProcessGetRecentDOM extends Command
 {
     /**
      * The name and signature of the console command.

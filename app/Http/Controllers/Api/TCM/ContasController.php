@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\TCM;
 
 use App\Http\Controllers\Controller;
 use App\Services\TCM\ContasScraperService;
+use App\Services\TCM\DiarioScraperService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
@@ -42,5 +43,11 @@ class ContasController extends Controller
         }
 
         return view('pages.contas', compact('resultado'));
+    }
+
+    public function getDiariosTCM(){
+        $resultados = DiarioScraperService::Diario();
+        
+        return view("pages.diario_tcm", compact('resultados'));
     }
 }

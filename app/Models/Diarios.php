@@ -15,4 +15,8 @@ class Diarios extends Model
     ];
 
     public $timestamps = false;
+
+    public function exoneracoes(){
+        return $this->hasMany(Exoneracoes::class, 'diario_id', 'id');
+    }
 }

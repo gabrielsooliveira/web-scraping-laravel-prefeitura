@@ -21,4 +21,9 @@ class ContasRepository
             'Content-Type' => 'application/x-www-form-urlencoded'
         ])->withOptions(['verify' => false])->post("https://www.tcm.ba.gov.br/consulta/legislacao/decisoes/contas-anuais/detalhe-conta-anual", $data);
     }
+
+    public static function getDiario(): Response
+    {
+        return Http::get("https://egbanet.egba.ba.gov.br/apifront/portal/edicoes/ultimas_edicoes.json?subtheme=tcm");
+    }
 }

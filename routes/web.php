@@ -28,3 +28,5 @@ Route::get('/parecer/todos', [ContasController::class, 'getParecerAll'])->name('
 Route::get('/parecer/prefeitura', [ContasController::class, 'getParecer'])->name('parecer_contas_prefeitura');
 Route::get('/parecer/descentralizada', [ContasController::class, 'getParecerDesc'])->name('parecer_contas_descentralizada');
 Route::get('/diario', [DiarioController::class, 'getDiariosAll'])->name('diario_oficial');
+
+Route::get('/diario/tcm', [ContasController::class, 'getDiariosTCM'])->name('diario_teste_tcm');

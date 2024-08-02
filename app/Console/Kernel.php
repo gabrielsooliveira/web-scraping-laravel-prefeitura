@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('process:getRecentDOM')->everyDay();
         $schedule->command('process:getAllDOMs');
+        $schedule->command('process:getExoneracoesDiario');
     }
 
     /**

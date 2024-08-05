@@ -46,8 +46,7 @@ class ContasController extends Controller
     }
 
     public function getDiariosTCM(){
-        $resultados = DiarioScraperService::Diario();
-        
+        $resultados = DiarioScraperService::getAllDiario();
         return view("pages.diario_tcm", compact('resultados'));
     }
 }

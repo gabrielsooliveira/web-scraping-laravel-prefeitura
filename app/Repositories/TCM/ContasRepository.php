@@ -26,4 +26,9 @@ class ContasRepository
     {
         return Http::get("https://egbanet.egba.ba.gov.br/apifront/portal/edicoes/ultimas_edicoes.json?subtheme=tcm");
     }
+
+    public static function getDataPdfDiario($value): Response
+    {
+        return Http::get("https://egbanet.egba.ba.gov.br/tcm/ver-pdf/$value/#/p:1/e:$value");
+    }
 }

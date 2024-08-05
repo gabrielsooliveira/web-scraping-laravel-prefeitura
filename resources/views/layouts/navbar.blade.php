@@ -18,7 +18,8 @@
               <li><a class="dropdown-item {{ Route::currentRouteName() == 'parecer_contas_prefeitura' ? 'active' : '' }}" href="{{ route('parecer_contas_prefeitura') }}">Parecer de Contas de Salvador - TCM</a></li>
               <li><a class="dropdown-item {{ Route::currentRouteName() == 'parecer_contas_descentralizada' ? 'active' : '' }}" href="{{ route('parecer_contas_descentralizada') }}">Parecer de Contas Descentralizada de Salvador - TCM</a></li>
               <li><a class="dropdown-item {{ Route::currentRouteName() == 'parecer_contas_todos' ? 'active' : '' }}" href="{{ route('parecer_contas_todos') }}">Todos Parecer de Contas - TCM</a></li>
-              <li><a class="dropdown-item {{ Route::currentRouteName() == 'diario_oficial' ? 'active' : '' }}" href="{{ route('diario_oficial') }}">Diario Oficial</a></li>
+              <li><a class="dropdown-item {{ Route::currentRouteName() == 'diario_teste_tcm' ? 'active' : '' }}" href="{{ route('diario_teste_tcm') }}">Diario Oficial do TCM</a></li>
+              <li><a class="dropdown-item {{ Route::currentRouteName() == 'diario_oficial' ? 'active' : '' }}" href="{{ route('diario_oficial') }}">Diario Oficial do Municipio</a></li>
             </ul>
           </li>
         </ul>

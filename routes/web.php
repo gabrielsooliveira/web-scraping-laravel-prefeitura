@@ -21,12 +21,15 @@ Route::get('/', function () {
     return view('pages.inicio');
 })->name('home');
 
+#Noticias
 Route::get('/cgm/{value?}', [NoticiasController::class, 'getInformes'])->name('cgm_informes');
+#Servidores
 Route::get('/servidores', [ServidoresController::class, 'getServidores'])->name('portalt_servidores');
 Route::get('/detalheservidor', [ServidoresController::class, 'getDetalheServidor'])->name('portalt_servidor_detalhes');
+#Contas
 Route::get('/parecer/todos', [ContasController::class, 'getParecerAll'])->name('parecer_contas_todos');
 Route::get('/parecer/prefeitura', [ContasController::class, 'getParecer'])->name('parecer_contas_prefeitura');
 Route::get('/parecer/descentralizada', [ContasController::class, 'getParecerDesc'])->name('parecer_contas_descentralizada');
-Route::get('/diario', [DiarioController::class, 'getDiariosAll'])->name('diario_oficial');
-
 Route::get('/diario/tcm', [ContasController::class, 'getDiariosTCM'])->name('diario_teste_tcm');
+#Diario
+Route::get('/diario', [DiarioController::class, 'getDiariosAll'])->name('diario_oficial');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\TCM;
 
 use App\Http\Controllers\Controller;
+use App\Models\Diarios_TCM;
 use App\Services\TCM\ContasScraperService;
 use App\Services\TCM\DiarioScraperService;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class ContasController extends Controller
         return view('pages.contas_prefeitura', compact('resultado'));
     }
 
-    
+
     public function getParecerDesc(){
         $resultado = ContasScraperService::ParecerDescentralizada();
         if (empty($resultado)) {
@@ -46,7 +47,7 @@ class ContasController extends Controller
     }
 
     public function getDiariosTCM(){
-        $resultados = DiarioScraperService::getAllDiario();
+        $resultados = Diarios_TCM::orderBy('data_publicacao', 'desc')->paginate(10);
         return view("pages.diario_tcm", compact('resultados'));
     }
 }

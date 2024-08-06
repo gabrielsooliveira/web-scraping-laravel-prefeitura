@@ -11,8 +11,7 @@ class Diarios_TCM extends Model
     protected $fillable = [
         'codigo',
         'data_publicacao',
-        'diario_id'
+        'diario_id',
+        'notificacao'
     ];
-
-    public $timestamps = false;
 }

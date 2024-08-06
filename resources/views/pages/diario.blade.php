@@ -2,16 +2,23 @@
 
 @section('content')
 <div class="container">
-   <div class="mt-4">
+    <h2 class="mt-4">Diarios Oficiais do Municipio</h2>
+    <div class="mt-2">
         <nav aria-label="Page navigation example" class="mb-2 d-flex">
             <span class="mt-2">{{ $resultados->currentPage() }} de {{ $resultados->lastPage() }} Páginas</span>
             <ul class="pagination ms-auto p-0">
-                <li class="page-item">
-                    <a class="page-link link-dark {{ $resultados->currentPage() === 1 ? 'disabled' : '' }}" href="{{ $resultados->previousPageUrl() }}"> << Anterior </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link link-dark {{ $resultados->currentPage() === $resultados->lastPage() ? 'disabled' : '' }}" href="{{ $resultados->nextPageUrl() }}"> Proxima >> </a>
-                </li>
+               <li class="page-item">
+                   <a class="page-link link-dark {{ $resultados->currentPage() === 1 ? 'disabled' : '' }}" href="{{ $resultados->url(1) }}">Primeira</a>
+               </li>
+               <li class="page-item">
+                   <a class="page-link link-dark {{ $resultados->currentPage() === 1 ? 'disabled' : '' }}" href="{{ $resultados->previousPageUrl() }}"> << Anterior </a>
+               </li>
+               <li class="page-item">
+                   <a class="page-link link-dark {{ $resultados->currentPage() === $resultados->lastPage() ? 'disabled' : '' }}" href="{{ $resultados->nextPageUrl() }}"> Proxima >> </a>
+               </li>
+               <li class="page-item">
+                   <a class="page-link link-dark {{ $resultados->currentPage() === $resultados->lastPage() ? 'disabled' : '' }}" href="{{ $resultados->url($resultados->lastPage()) }}">Última</a>
+               </li>
             </ul>
         </nav>
         <table class="table">
@@ -26,11 +33,11 @@
             <tbody>
                 @foreach ($resultados as $value)
                 <tr>
-                    <th scope="row">{{ $value['codigo'] }}</th>
+                    <th scope="row">DOM - {{ $value['codigo'] }}</th>
                     <td>{{ date('d/m/Y', strtotime($value['data_publicacao'])) }}</td>
                     <td>
                     @if ($value->exoneracoes->isNotEmpty())
-                    <span class="badge text-bg-warning">Exonerações Existentes</span>
+                    <span class="badge text-bg-primary">Exonerações Existentes</span>
                     @endif
                     </td>
                     <td><a type="button" class="btn btn-primary btn-sm" href="{{ Storage::url('DOM/' . $value['url']) }}" target="_blank">Visualizar</a></td>

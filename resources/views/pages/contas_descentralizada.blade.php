@@ -38,7 +38,7 @@
                                 <ul class="list-group list-group-flush mt-3">
                                 @if(!empty($empresa_data['pdfs']))
                                     @foreach ($empresa_data['pdfs'] as $indice => $pdf)
-                                        <li class="list-group-item"><a href="https://www.tcm.ba.gov.br/{{ $pdf['link'] }}" target="_blank" class="text-decoration-none">{{ $pdf['title'] }}</a></li>
+                                    <li class="list-group-item"><a href="https://www.tcm.ba.gov.br/{{ $pdf['link'] }}" target="_blank" class="text-decoration-none">{{ $pdf['title'] }}</a></li>
                                     @endforeach
                                 @else
                                     <li class="list-group-item">Nenhum PDF encontrado</li>

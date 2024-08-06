@@ -7,14 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Diarios extends Model
 {
-    protected $table = 'diarios';
+    protected $table = 'diarios_municipio';
     protected $fillable = [
         'codigo',
         'data_publicacao',
         'url'
     ];
-
-    public $timestamps = false;
 
     public function exoneracoes(){
         return $this->hasMany(Exoneracoes::class, 'diario_id', 'id');

@@ -13,8 +13,7 @@ class Exoneracoes extends Model
         'data_exoneracao',
         'diario_id'
     ];
-    
-    public $timestamps = false;
+
     public function diarios(){
         return $this->belongsTo(Diarios::class);
     }

@@ -14,4 +14,11 @@ class Diarios_TCM extends Model
         'diario_id',
         'notificacao'
     ];
+
+    use HasFactory;
+
+    public function processos()
+    {
+        return $this->belongsToMany(Processos::class, 'processos_diarios_tcm', 'diario_tcm_id', 'processo_id');
+    }
 }

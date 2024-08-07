@@ -26,7 +26,7 @@
                  <tr>
                      <th scope="col">DOM</th>
                      <th scope="col">Data de publicação</th>
-                     <th scope="col">Informações</th>
+                     <th scope="col">Processos Mencionados</th>
                      <th scope="col">PDF</th>
                  </tr>
              </thead>
@@ -36,9 +36,9 @@
                      <th scope="row">DOM - {{ $value['codigo'] }}</th>
                      <td>{{ date('d/m/Y', strtotime($value['data_publicacao'])) }}</td>
                      <td>
-                     @if ($value->notificacao)
-                     <span class="badge text-bg-primary">Menção a prefeitura de Salvador existente</span>
-                     @endif
+                        @foreach ($value->processos as $processo)
+                        <span class="badge text-bg-primary">{{$processo->codigo}}</span>
+                        @endforeach
                      </td>
                      <td><a type="button" class="btn btn-primary btn-sm" href="{{ Storage::url('Diario_TCM/edicao_' . $value['codigo'] . '.pdf') }}" target="_blank">Visualizar</a></td>
                  </tr>

@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Diarios_TCM;
+use App\Models\Processos_Diarios_tcm;
 use App\Services\TCM\DiarioScraperService;
 use Illuminate\Console\Command;
 
@@ -29,10 +30,11 @@ class ProcessGetInfoDiarioTCM extends Command
     {
         $diarios = Diarios_TCM::all();
         foreach ($diarios as $diario) {
-            $valor = DiarioScraperService::getInfoDiario($diario["codigo"]);
-            if ($valor == 1) {
-                $diario->update([
-                    'notificacao' => $valor
+            $processos = DiarioScraperService::getInfoDiario($diario["codigo"]);
+            foreach ($processos as $processo) {
+                Processos_Diarios_tcm::create([
+                    "diario_tcm_id" => $diario["id"],
+                    "processo_id" => $processo["id"]
                 ]);
             }
         }

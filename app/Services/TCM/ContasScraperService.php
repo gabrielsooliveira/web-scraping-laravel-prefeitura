@@ -12,7 +12,7 @@ class ContasScraperService
 {
     public static function Parecer(): array
     {
-        $anos = ["2023", "2022", "2021", "2020", "2019"];
+        $anos = ["2023", "2022", "2021", "2020", "2019", "2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010"];
         $pareceres = [];
 
         foreach ($anos as $value) {
@@ -24,11 +24,11 @@ class ContasScraperService
                 'contaanual' => null,
                 'B1' => "Pesquisar"
             ];
-    
+
             $resultado = ContasRepository::getInfoParecer($data);
             $conteudo = $resultado->body();
             $crawler = new Crawler($conteudo);
-            
+
             $parecer = [
                 'processo' => $crawler->filter('label:contains("Processo:") + span')->text(),
                 'gestor' => $crawler->filter('label:contains("Gestor:") + span')->text(),
@@ -47,7 +47,7 @@ class ContasScraperService
 
             $pareceres[$value]['PREFEITURA'] = $parecer;
         }
-        
+
         return $pareceres;
     }
 
@@ -68,7 +68,7 @@ class ContasScraperService
                     'contaanual' => null,
                     'B1' => "Pesquisar"
                 ];
-        
+
                 $resultado = ContasRepository::getInfoParecer($data);
                 $conteudo = $resultado->body();
                 $crawler = new Crawler($conteudo);
@@ -84,23 +84,23 @@ class ContasScraperService
                 if ($crawler->filter('label:contains("Processo:") + span')->count()) {
                     $parecer['processo'] = $crawler->filter('label:contains("Processo:") + span')->text();
                 }
-    
+
                 if ($crawler->filter('label:contains("Gestor:") + span')->count()) {
                     $parecer['gestor'] = $crawler->filter('label:contains("Gestor:") + span')->text();
                 }
-    
+
                 if ($crawler->filter('label:contains("Transitado em Julgado:") + span')->count()) {
                     $parecer['transitado_em_julgado'] = $crawler->filter('label:contains("Transitado em Julgado:") + span')->text();
                 }
-    
+
                 if ($crawler->filter('label:contains("Publicação:") + span')->count()) {
                     $parecer['publicacao'] = $crawler->filter('label:contains("Publicação:") + span')->text();
                 }
-    
+
                 if ($crawler->filter('label:contains("Última Decisão do TCM:") + span')->count()) {
                     $parecer['decisaoTCM'] = $crawler->filter('label:contains("Última Decisão do TCM:") + span')->text();
                 }
-    
+
                 if ($crawler->filter('li.list_item_content')->count()) {
                     $parecer['pdfs'] = $crawler->filter('li.list_item_content')->each(function (Crawler $node) {
                         $link = $node->filter('a')->attr('href');

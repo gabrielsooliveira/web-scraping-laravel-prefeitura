@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\CGM\NoticiasController;
 use App\Http\Controllers\Api\PortalTransparencia\ServidoresController;
 use App\Http\Controllers\Api\TCM\ContasController;
 use App\Http\Controllers\Api\DOM\DiarioController;
+use App\Http\Controllers\Api\Site\ProcessosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +19,13 @@ use App\Http\Controllers\Api\DOM\DiarioController;
 */
 
 Route::get('/', function () {
-    return view('pages.inicio');
+    return view("pages.inicio");
 })->name('home');
 
+Route::get('/lista-processos', [ProcessosController::class, 'index'])->name('index_processos');
+Route::post('/processo', [ProcessosController::class, 'store'])->name('store_processos');
+Route::get('/processo/{id}', [ProcessosController::class, 'show'])->name('show_processos');
+Route::put('/resource/{id}', [ProcessosController::class, 'update'])->name("update_processos");
 #Noticias
 Route::get('/cgm/{value?}', [NoticiasController::class, 'getInformes'])->name('cgm_informes');
 #Servidores
@@ -33,3 +38,4 @@ Route::get('/parecer/descentralizada', [ContasController::class, 'getParecerDesc
 Route::get('/diario/tcm', [ContasController::class, 'getDiariosTCM'])->name('diario_teste_tcm');
 #Diario
 Route::get('/diario', [DiarioController::class, 'getDiariosAll'])->name('diario_oficial');
+

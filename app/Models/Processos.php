@@ -10,6 +10,7 @@ class Processos extends Model
     protected $table = 'processos';
     protected $fillable = [
         'codigo',
+        'descricao',
         'status'
     ];
 

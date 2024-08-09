@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('processos', function (Blueprint $table) {
             $table->id();
-            $table->string("codigo", 11);
+            $table->string("codigo", 11)->unique();
+            $table->text("descricao")->nullable();
             $table->boolean("status");
             $table->timestamps();
         });

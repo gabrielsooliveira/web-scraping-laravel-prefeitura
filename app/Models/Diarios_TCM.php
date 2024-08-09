@@ -12,7 +12,6 @@ class Diarios_TCM extends Model
         'codigo',
         'data_publicacao',
         'diario_id',
-        'notificacao'
     ];
 
     use HasFactory;

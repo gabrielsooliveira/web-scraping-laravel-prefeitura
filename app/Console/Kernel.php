@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('process:getDiariosTCM');
         $schedule->command('process:getInfoDiarioTCM');
         $schedule->command('process:getParecerContasPrefeitura');
+        $schedule->command('process:getRecentDiarioTCM');
     }
 
     /**

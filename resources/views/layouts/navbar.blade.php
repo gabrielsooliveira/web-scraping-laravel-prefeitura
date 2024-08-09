@@ -10,6 +10,9 @@
           <li class="nav-item">
             <a class="nav-link {{ Route::currentRouteName() == 'home' ? 'active' : '' }}" aria-current="page" href="{{ route('home') }}">Inicio</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link {{ Route::currentRouteName() == 'index_processos' ? 'active' : '' }}" aria-current="page" href="{{ route('index_processos') }}">Lista de Processos</a>
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Conteudos</a>
             <ul class="dropdown-menu dropdown-menu-end">

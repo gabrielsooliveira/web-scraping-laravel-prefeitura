@@ -32,7 +32,7 @@ class ProcessGetParecerContasPrefeitura extends Command
         foreach ($resultados as $anoconta) {
             Processos::create([
                 "codigo" => $anoconta["PREFEITURA"]["processo"],
-                "status" => 0
+                "status" => 1
             ]);
         }
     }

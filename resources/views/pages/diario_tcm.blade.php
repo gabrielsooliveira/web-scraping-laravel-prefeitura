@@ -24,7 +24,7 @@
         <table class="table">
              <thead>
                 <tr>
-                    <th scope="col">DOM</th>
+                    <th scope="col">DOE</th>
                     <th scope="col">Data de publicação</th>
                     <th scope="col">Processos Mencionados</th>
                     <th scope="col">PDF</th>
@@ -33,11 +33,11 @@
             <tbody>
                 @foreach ($resultados as $value)
                 <tr>
-                    <th scope="row">DOM - {{ $value['codigo'] }}</th>
+                    <th scope="row">DOE - {{ $value['codigo'] }}</th>
                     <td>{{ date('d/m/Y', strtotime($value['data_publicacao'])) }}</td>
                     <td>
                         @foreach ($value->processos as $processo)
-                        <span class="badge text-bg-primary">{{$processo->codigo}}</span>
+                        <span class="badge text-bg-primary"><a href="{{ route("show_processos", $processo['id']) }}" class="link-light text-decoration-none">{{$processo->codigo}}</a></span>
                         @endforeach
                     </td>
                     <td><a type="button" class="btn btn-primary btn-sm" href="{{ Storage::url('Diario_TCM/edicao_' . $value['codigo'] . '.pdf') }}" target="_blank">Visualizar</a></td>

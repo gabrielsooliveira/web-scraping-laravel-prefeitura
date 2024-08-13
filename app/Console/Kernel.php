@@ -12,13 +12,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('process:getRecentDOM')->everyDay();
-        $schedule->command('process:getAllDOMs');
-        $schedule->command('process:getExoneracoesDiario');
-        $schedule->command('process:getDiariosTCM');
-        $schedule->command('process:getInfoDiarioTCM');
-        $schedule->command('process:getParecerContasPrefeitura');
-        $schedule->command('process:getRecentDiarioTCM');
+        // $schedule->command('process:getRecentDOM')->everyDay();
+        // $schedule->command('process:getAllDOMs');
+        // $schedule->command('process:getExoneracoesDiario');
+        // $schedule->command('process:getDiariosTCM');
+        // $schedule->command('process:getInfoDiarioTCM');
+        // $schedule->command('process:getParecerContasPrefeitura');
+        $schedule->command('process:getRecentDiarioTCM')->dailyAt('08:20');
+
     }
 
     /**

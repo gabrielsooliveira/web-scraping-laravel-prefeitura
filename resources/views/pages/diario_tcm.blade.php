@@ -31,16 +31,16 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($resultados as $value)
+                @foreach ($resultados as $diario)
                 <tr>
-                    <th scope="row">DOE - {{ $value['codigo'] }}</th>
-                    <td>{{ date('d/m/Y', strtotime($value['data_publicacao'])) }}</td>
+                    <th scope="row">DOE - {{ $diario['codigo'] }}</th>
+                    <td>{{ date('d/m/Y', strtotime($diario['data_publicacao'])) }}</td>
                     <td>
-                        @foreach ($value->processos as $processo)
+                        @foreach ($diario->processos as $processo)
                         <span class="badge text-bg-primary"><a href="{{ route("show_processos", $processo['id']) }}" class="link-light text-decoration-none">{{$processo->codigo}}</a></span>
                         @endforeach
                     </td>
-                    <td><a type="button" class="btn btn-primary btn-sm" href="{{ Storage::url('Diario_TCM/edicao_' . $value['codigo'] . '.pdf') }}" target="_blank">Visualizar</a></td>
+                    <td><a type="button" class="btn btn-primary btn-sm" href="{{ Storage::url('Diario_TCM/edicao_' . $diario['codigo'] . '.pdf') }}" target="_blank">Visualizar</a></td>
                 </tr>
                 @endforeach
             </tbody>
